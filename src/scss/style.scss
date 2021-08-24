@@ -59,7 +59,7 @@ body {
 }
 .wpsf-build-container {
 	display: grid;
-	grid-template-columns:572px 1fr;
+	grid-template-columns:566px 1fr;
     font-family: 'ApercuPro';
     color: #495560;
 }
@@ -69,8 +69,7 @@ body {
     border-right: 1px solid #d2dae2;
     .wpsf-build-eles {
         overflow: auto;
-        // height: calc(100vh - 108px);
-        height: calc(100vh - 180px);
+        height: calc(100vh - 208px);
 
         .wpsf-build-text{
             display: flex;
@@ -78,9 +77,9 @@ body {
             justify-content: center;
             border-bottom: 1px solid #d2dae2;
             padding-left: 20px;
-            height: 108px;
+            height: 138px;
             p{
-                margin: 0;
+                margin: 6px 0 0 0;
                 color: #626F7D;
                 font-size: 16px;
             }
@@ -94,7 +93,7 @@ body {
             padding-left: 20px;
             padding-bottom: 20px;
              .wpsf-build-elements_start, .wpsf-build-elements_content,  .wpsf-build-elements_results{
-                margin-top: 20px;
+                margin-top: 40px;
                 h3{
                     font-size: 20px;
                     margin: 0;
@@ -106,7 +105,7 @@ body {
                     .wpsf-build-elements_box{
                         cursor: move;
                         height: 66px;
-                        width: 256px;
+                        width: 246px;
                         background-color: #FFFFFF;
                         box-shadow: 0px 4px 1px rgb(33 30 30 / 4%);
                         border-radius: 9px;
@@ -115,7 +114,7 @@ body {
                         align-items:center;
                         padding-left: 10px;
                         img{
-                            padding: 5px;
+                            padding: 10px;
                             border-radius: 5px;
                         }
                         p{
@@ -132,7 +131,7 @@ body {
     .wpsf-build-elements-save{
 
         border-top: 1px solid #d2dae2;
-        height: 64px;
+        height: 90px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -146,7 +145,6 @@ body {
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
             border-radius: 9px;
         }
@@ -170,13 +168,13 @@ body {
 
 .wpsf-build-content{
     overflow: auto;
-    height: calc(100vh - 108px);
+    height: calc(100vh - 124px);
     .wpsf-build-content-title-container{
-        height: 108px;
-        padding-left: 20px;
+        height: 138px;
+        padding-left: 44px;
         h2{
             display: inline-block;
-            margin: 20px 10px 10px 0;
+            margin: 44px 14px 14px 0;
         }
         .wpsf-build-content-title-edit{
             border: none;
@@ -192,16 +190,17 @@ body {
             padding: 5px 10px;
             display: inline-block;
             border-radius:99px;
+            color: white;
         }
     }
     .wpsf-dropboard{
-        margin-left: 20px;
-        padding: 20px;
+        margin-left: 44px;
+        padding: 46px;
         margin-bottom: 20px;
         border-radius: 9px;
         margin-right: 20px;
         h2{
-            margin: 10px 0;
+            margin: 8px 0 0 0;
         
         }
         .cardBox{
@@ -230,7 +229,7 @@ body {
 .wpsf-card-area {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    margin: 12px 0;
 
     .wpsf-cardbox-number {
         padding: 22px 30px;
@@ -260,7 +259,7 @@ body {
     border-bottom: 1px solid #d2dae2;
     background: #fff;
     display:flex;
-    height:108px;
+    height:124px;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
@@ -704,15 +703,21 @@ body {
     height: calc(100vh - 108px);
     .wpsf-design-setting-fields{
         overflow: auto;
-        height: calc(100vh - 196px);
+        height: calc(100vh - 214px);
         .wpsf-design-elements{
             border-bottom: 1px solid #d2dae2;
             padding-bottom: 20px;
             padding: 0 0 20px 20px;
             h2{
-                margin: 20px 0 0 0;
+                margin: 44px 0 0 0;
+            }
+            h4{
+                margin: 10px 0;
             }
             .wpsf-font-family-container{
+                h4{
+                    margin: 10px 0;
+                }
                 select{
                     height: 66px;
                     width: 275px;
@@ -726,6 +731,7 @@ body {
                     background-position-x: 245px;
                     background-position-y: 25px;
                     padding-left: 20px;
+                    margin-bottom: 20px;
                 }
                 select:focus{
                     outline: none;
@@ -742,10 +748,11 @@ body {
                         display: flex;
                         justify-content: center;
                         border-radius: 5px;
-                        padding-top: 2px;
+                        padding-top: 6px;
                         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
                         cursor: pointer;
                         margin-right: 20px;
+                        margin-bottom: 20px;
                         .wpsf-color-value{
                             background-color: #FFFFFF;
                             height: 40px;
@@ -762,6 +769,7 @@ body {
             }
             .wpsf-opacity-section{
                 padding-right: 20px;
+                margin-bottom: 20px;
                 .wpsf-opacity-percentage{
                     display: flex;
                     justify-content: space-between;
@@ -860,7 +868,7 @@ body {
             .wpsf-img-upload-container{
                 display: flex;
                 justify-content: space-between;
-                margin-top: 20px;
+                margin-top: 44px;
                 padding-right: 20px;
             }
             .wpsf-custom-file-upload{
@@ -886,8 +894,8 @@ body {
     .wpsf-design-settings-save{
         display: flex;
         justify-content: flex-end;
-        margin-top: 10px;
-        margin-right: 20px;
+        margin-top: 24px;
+        margin-right: 40px;
         button{
             background-color: #0F4C81;
             border: none;
@@ -897,7 +905,6 @@ body {
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
             border-radius: 9px;
         }

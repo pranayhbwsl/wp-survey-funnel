@@ -29,7 +29,7 @@
                     margin: 0;
                 }
                 p{
-                    margin: 5px 20px 0 0;
+                    margin: 17px 20px 0 0;
                     color:#626F7D;
                     font-size: 14px;
                 }
@@ -38,7 +38,7 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid #d2dae2;
-            padding: 20px;
+            padding: 32px;
             h3{
                 margin: 20px;
             }
@@ -53,15 +53,15 @@
         .meta-info{
             .configure-fields{
                 overflow: auto;
-                height: calc(100vh - 198px);
+                height: calc(100vh - 214px);
                 .meta-info-container{
-                    padding: 20px 0 0 40px;
+                    padding: 44px 0 0 44px;
                     border-bottom: 1px solid #d2dae2;
                     h3{
                         margin: 0;
                     }
                     p{
-                        margin: 5px 0 20px 0;
+                        margin: 17px 0 44px 0;
                         color: #626F7D;
                     }
                     label{
@@ -73,7 +73,7 @@
                         padding: 20px;
                         border-radius: 9px;
                         border: 1px solid #B5C8C8;
-                        margin: 10px 0 20px 0;
+                        margin: 15px 0 36px 0;
                         outline: none;
                     }
                     textarea{
@@ -81,20 +81,20 @@
                         border-radius: 9px;
                         padding: 20px;
                         border: 1px solid #B5C8C8;
-                        margin: 10px 0 20px 0;
+                        margin: 15px 0 44px 0;
                         outline: none;
                     }
     
                 }
                 .company-name-container{
-                    padding: 20px 0 0 40px;
+                    padding: 44px 0 0 44px;
                     h3{
                         margin: 0;
                     }
                     .companyLogoBox{
                         display: flex;
                         align-items: center;
-                        margin: 20px 0 20px 0;
+                        margin: 17px 0 44px 0;
                         p{
                             margin: 0;
                             padding-right: 20px;
