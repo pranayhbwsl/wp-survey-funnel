@@ -1,17 +1,17 @@
 import * as data from "../../Data/index";
 
 
-// it("ItemTypes test",()=>{
-//     const expectedItemTypes = 	{ CARD: 'card',
-// 	START_ELEMENTS: 'START_ELEMENTS',
-// 	CONTENT_ELEMENTS: 'CONTENT_ELEMENTS',
-// 	RESULT_ELEMENTS: 'RESULT_ELEMENTS'
-//     }
-//     const receivedItemTypes = data.ItemTypes;
+it("ItemTypes test",()=>{
+    const expectedItemTypes = 	{ CARD: 'card',
+	START_ELEMENTS: 'START_ELEMENTS',
+	CONTENT_ELEMENTS: 'CONTENT_ELEMENTS',
+	RESULT_ELEMENTS: 'RESULT_ELEMENTS'
+    }
+    const receivedItemTypes = data.ItemTypes;
 
-//     expect(expectedItemTypes).toMatchObject(receivedItemTypes);
+    expect(expectedItemTypes).toMatchObject(receivedItemTypes);
 
-// })
+})
 
 // it("buildElements test",()=>{
 //     const expectedbuildElements = 	{
@@ -53,114 +53,114 @@ import * as data from "../../Data/index";
 
 // })
 
-it("dropBoard test",()=>{
-    const expecteddropBoard = 	[
-        {
-            name: 'Start Screen',
-            type: 'StartScreen',
-            itemType: data.ItemTypes.START_ELEMENTS
-        },
-        {
-            name: 'Content Elements',
-            type: 'ContentElements',
-            itemType: data.ItemTypes.CONTENT_ELEMENTS
-        },
-        {
-            name: 'Results Screen',
-            type: 'ResultsScreen',
-            itemType: data.ItemTypes.RESULT_ELEMENTS
-        }
-    ];
-    const receiveddropBoard = data.dropBoard;
+// it("dropBoard test",()=>{
+//     const expecteddropBoard = 	[
+//         {
+//             name: 'Start Screen',
+//             type: 'StartScreen',
+//             itemType: data.ItemTypes.START_ELEMENTS
+//         },
+//         {
+//             name: 'Content Elements',
+//             type: 'ContentElements',
+//             itemType: data.ItemTypes.CONTENT_ELEMENTS
+//         },
+//         {
+//             name: 'Results Screen',
+//             type: 'ResultsScreen',
+//             itemType: data.ItemTypes.RESULT_ELEMENTS
+//         }
+//     ];
+//     const receiveddropBoard = data.dropBoard;
 
-    expect(expecteddropBoard).toEqual(expect.arrayContaining(receiveddropBoard));
+//     expect(expecteddropBoard).toEqual(expect.arrayContaining(receiveddropBoard));
 
 
-})
+// })
 
-it("formElementsDropBoard test",()=>{
-    const expectedformElementsDropBoard = 	[
-        {
-            name: 'Form Fields',
-            type: 'FormFields',
-            itemType: 'FORMFIELDS_ELEMENTS'
-        }
-    ]
-    const receivedformElementsDropBoard = data.formElementsDropBoard;
+// it("formElementsDropBoard test",()=>{
+//     const expectedformElementsDropBoard = 	[
+//         {
+//             name: 'Form Fields',
+//             type: 'FormFields',
+//             itemType: 'FORMFIELDS_ELEMENTS'
+//         }
+//     ]
+//     const receivedformElementsDropBoard = data.formElementsDropBoard;
 
-    expect(expectedformElementsDropBoard).toEqual(expect.arrayContaining(receivedformElementsDropBoard));
+//     expect(expectedformElementsDropBoard).toEqual(expect.arrayContaining(receivedformElementsDropBoard));
 
-})
+// })
 
-it("formElements test",()=>{
-    const expectedformElements = 	 [
-        {
-            name: 'First Name',
-            componentName: 'FirstName',
-            itemType: 'FORMFIELDS_ELEMENTS',
-            required: false,
-            placeholder: '',
-            value: '',
-        },
-        {
-            name: 'Last Name',
-            componentName: 'LastName',
-            itemType: 'FORMFIELDS_ELEMENTS',
-            required: false,
-            placeholder: '',
-            value: '',
-        },
-        {
-            name: 'Email',
-            componentName: 'Email',
-            itemType: 'FORMFIELDS_ELEMENTS',
-            required: false,
-            placeholder: '',
-            value: ''
-        },
-    ];
-    const receivedformElements = data.formElements;
+// it("formElements test",()=>{
+//     const expectedformElements = 	 [
+//         {
+//             name: 'First Name',
+//             componentName: 'FirstName',
+//             itemType: 'FORMFIELDS_ELEMENTS',
+//             required: false,
+//             placeholder: '',
+//             value: '',
+//         },
+//         {
+//             name: 'Last Name',
+//             componentName: 'LastName',
+//             itemType: 'FORMFIELDS_ELEMENTS',
+//             required: false,
+//             placeholder: '',
+//             value: '',
+//         },
+//         {
+//             name: 'Email',
+//             componentName: 'Email',
+//             itemType: 'FORMFIELDS_ELEMENTS',
+//             required: false,
+//             placeholder: '',
+//             value: ''
+//         },
+//     ];
+//     const receivedformElements = data.formElements;
 
-    expect(expectedformElements).toEqual(expect.arrayContaining(receivedformElements));
+//     expect(expectedformElements).toEqual(expect.arrayContaining(receivedformElements));
 
-})
+// })
 
-it("designColors test",()=>{
-    const expecteddesignColors =  [
-        {
-            name: 'Font Color',
-            itemName: 'fontColor'
-        },
-        {
-            name: 'Background Color',
-            itemName: 'backgroundColor'
-        },
-        {
-            name: 'Button Color',
-            itemName: 'buttonColor'
-        },
-        {
-            name: 'Button Text Color',
-            itemName: 'buttonTextColor'
-        },
-        {
-            name: 'Answers Highlight Box Color',
-            itemName: 'answersHighlightBoxColor'
-        },
-        {
-            name: 'Answer Border Color',
-            itemName: 'answerBorderColor'
-        },
-        {
-            name: 'Background Container Color',
-            itemName: 'backgroundContainerColor'
-        },
-    ]
-    const receiveddesignColors = data.designColors;
+// it("designColors test",()=>{
+//     const expecteddesignColors =  [
+//         {
+//             name: 'Font Color',
+//             itemName: 'fontColor'
+//         },
+//         {
+//             name: 'Background Color',
+//             itemName: 'backgroundColor'
+//         },
+//         {
+//             name: 'Button Color',
+//             itemName: 'buttonColor'
+//         },
+//         {
+//             name: 'Button Text Color',
+//             itemName: 'buttonTextColor'
+//         },
+//         {
+//             name: 'Answers Highlight Box Color',
+//             itemName: 'answersHighlightBoxColor'
+//         },
+//         {
+//             name: 'Answer Border Color',
+//             itemName: 'answerBorderColor'
+//         },
+//         {
+//             name: 'Background Container Color',
+//             itemName: 'backgroundContainerColor'
+//         },
+//     ]
+//     const receiveddesignColors = data.designColors;
 
-    expect(expecteddesignColors).toEqual(expect.arrayContaining(receiveddesignColors));
+//     expect(expecteddesignColors).toEqual(expect.arrayContaining(receiveddesignColors));
 
-})
+// })
 
 
 // it("initColorState test",()=>{
@@ -294,21 +294,21 @@ it("designColors test",()=>{
 //     expect(expectedpopupInitialState).toMatchObject(receivedpopupInitialState);
 
 // })
-it("shareTabsData test",()=>{
-    const expectedshareTabsData =  [
-        {
-            name: 'Share Shortcode',
-            description: 'Copy this and paste it into any post or page you want the survey to be displayed.',
-            id: 'shortcode',
-        },
-        {
-            name: 'Popup',
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, quam?',
-            id: 'popup'
-        }
-    ]
-    const receivedshareTabsData = data.shareTabsData;
+// it("shareTabsData test",()=>{
+//     const expectedshareTabsData =  [
+//         {
+//             name: 'Share Shortcode',
+//             description: 'Copy this and paste it into any post or page you want the survey to be displayed.',
+//             id: 'shortcode',
+//         },
+//         {
+//             name: 'Popup',
+//             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, quam?',
+//             id: 'popup'
+//         }
+//     ]
+//     const receivedshareTabsData = data.shareTabsData;
 
-    expect(expectedshareTabsData).toEqual(expect.arrayContaining(receivedshareTabsData));
+//     expect(expectedshareTabsData).toEqual(expect.arrayContaining(receivedshareTabsData));
 
-})
+// })
