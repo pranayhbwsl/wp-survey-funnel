@@ -86,6 +86,8 @@ module.exports = function (grunt) {
 					'**',
 					'!node_modules/**',
 					'!vendor/**',
+					'!**/JSTests/**',
+					'!__mocks__/**',
 					'vendor/mobiledetect/**',
                     'vendor/autoload.php',
 					'!release/**',
@@ -103,6 +105,7 @@ module.exports = function (grunt) {
 					'!*.xml',
 					'!*.config.*',
 					'!phpunit.xml.dist',
+					'!*.md'
 					],
 					dest: 'release/<%= pkg.version %>/'
 				}

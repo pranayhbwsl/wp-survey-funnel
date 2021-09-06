@@ -18,11 +18,16 @@ body {
     font-weight: 500;
     src: url("../../assets/fonts/Apercu-Font/Apercu\ Pro\ Medium.otf") format("opentype");
 }
-.main-tab-container {
+.main-tab-container, .tab-controls-inner, .preview, .tab-list {
    
     width: calc( 100% - 30px );
     max-width: 900px;
 }
+
+.checkbox-group, .radio-group {
+	margin-bottom: 20px;
+}
+
 .dismissalContainer {
     button {
         padding: 12px 28px;
@@ -61,24 +66,33 @@ body {
                 cursor: pointer;
                 border-radius: 9px;
             }
-            .wpsf-tab-CoverPage, .wpsf-tab-ResultScreen{
+            .surveyfunnel-lite-tab-CoverPage, .surveyfunnel-lite-tab-ResultScreen{
                 text-align: center;
             }
+			.tab-validation-error {
+				p {
+					margin: 0;
+					margin-bottom: 6px;
+				}
+			}
         }
     }
 }
-.wpsf-tab-CoverPage, .wpsf-tab-ResultScreen, .wpsf-tab-SingleChoice, .wpsf-tab-MultiChoice, .wpsf-tab-FormElements{
+.surveyfunnel-lite-tab-CoverPage, .surveyfunnel-lite-tab-ResultScreen, .surveyfunnel-lite-tab-SingleChoice, .surveyfunnel-lite-tab-MultiChoice, .surveyfunnel-lite-tab-FormElements{
     border-radius: 12px;
     width: 100%;
 }
-.wpsf-tab-CoverPage, .wpsf-tab-ResultScreen{
+.surveyfunnel-lite-tab-CoverPage, .surveyfunnel-lite-tab-ResultScreen{
     display:flex;
     justify-content: center;
     align-items: center;
     text-align: center;
 
     min-height: 450px;
-    padding: 40px;
+	padding: 40px;
+	@media screen and (max-width: 480px) {
+		padding: 15px;
+	}
     .tab-container{
         .tab{
             h3{
@@ -97,9 +111,11 @@ body {
     }
 
 }
-.wpsf-tab-SingleChoice, .wpsf-tab-MultiChoice{
+.surveyfunnel-lite-tab-SingleChoice, .surveyfunnel-lite-tab-MultiChoice{
     padding: 40px;
-
+	@media screen and (max-width: 480px) {
+		padding: 15px;
+	}
     .tab-container{
         .tab{
             h3{
@@ -117,7 +133,7 @@ body {
                 max-width: 300px;
                 word-break: break-word;
             }
-            .wpsf-tab-answer-container{
+            .surveyfunnel-lite-tab-answer-container{
                 border: 1px solid #0F4C81;
                 border-radius: 9px;
                 margin-bottom: 5px;
@@ -166,8 +182,11 @@ body {
     }
     
 }
-.wpsf-tab-FormElements{
+.surveyfunnel-lite-tab-FormElements{
     padding: 40px;
+	@media screen and (max-width: 480px) {
+		padding: 15px;
+	}
     .tab-container{
         .tab{
             h3{
@@ -206,7 +225,7 @@ body {
                 outline:none;
                 padding:20px;
             }
-            .wpsf-form-submit-button{
+            .surveyfunnel-lite-form-submit-button{
                 display: flex;
                 justify-content: center;
                 button{
@@ -227,24 +246,50 @@ body {
     justify-content: flex-end;
 }
 
-.wpsf-design-preview-container{
-    .wpsf-survey-form{
+.design-preview{
+    .surveyfunnel-lite-survey-form{
         display: flex;
         justify-content: center;
-        overflow: auto;
-        .wpsf-design-preview-container{
+        .surveyfunnel-lite-design-preview-container {
             width: 100%;
+			height: 100%;
+			min-height: 100%;
+			display: -ms-flexbox;
+			display: flex;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			
             .preview{
-                height: calc( 100% - 108px );
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+				overflow: auto;
+				position: relative;
+				display: block;
+				margin: 0 auto;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				-ms-flex-pack: center;
+				justify-content: center;
+				-ms-flex: 1;
+				flex: 1;
+				align-items: center;
+				padding: 30px 0px;
+				height: calc(100% - 80px);
+				.preview-container {
+					overflow: visible;
+					display: -ms-flexbox;
+					display: flex;
+					-ms-flex-direction: column;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					height: 100%;
+					flex-wrap: wrap;
+					.main-tab-container {
+						height: 100%;
+						width: 100%;
+					}
+				}
                 .tab-list{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
+                    overflow: auto;
                 }
             }
         }
@@ -253,8 +298,14 @@ body {
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
-                margin-right: 75px;
                 height: 100%;
+				@media screen and (max-width: 375px) {
+					width: 100%;
+					justify-content: center;
+				}
+				span {
+					margin-right: 10px;
+				}
                 .control-buttons {
                     margin-left: 20px;
                     margin-right: 20px;
@@ -262,6 +313,9 @@ body {
                         padding: 0px 25px !important;
                     }
                 }
+				button, div {
+					margin-right: 5px;
+				}
                 button, a {
                     background-color: #F0F2F5;
                     border: 1px solid #d2dae2;
@@ -272,7 +326,14 @@ body {
                     font-size: 16px;
                     cursor: pointer;
                     border-radius: 9px;
-                    padding: 0px 32px;
+					padding: 10px 15px 7px;
+					border: 1px solid rgba(0,0,0,.1);
+					border-radius: 5px;
+					background-color: #fff;
+					cursor: pointer;
+					@media screen and (max-width: 375px) {
+						font-size: 10px;
+					}
                 }
                 button:disabled{
                     opacity: 0.7;
@@ -300,9 +361,11 @@ body {
 }
 
 .tab-controls {
-    padding: 25px 0px;
+	display: flex;
+	justify-content: center;
+    padding: 20px 0px;
     background: hsla(0,0%,100%,.25);
-    height: 108px;
+    height: 80px;
     div {
         height: 100%;
     }
@@ -314,10 +377,68 @@ body {
         height: 100%;
     }
     img {
-        width: 140px;
+        width: 100px;
     }
     button {
         height: 100%;  
         border: 1px solid#E1E8F0;
     }
+}
+
+.surveyfunnel-lite-sc-fullpage {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.surveyfunnel-lite-sc-popup {
+    position: fixed;
+	top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 80%;
+    height: 90%;
+    margin: auto;
+    z-index: 9999;
+
+	@media screen and (max-width: 460px) {
+		width: 100%;
+    	height: 100%;
+	}
+}
+
+.frame-root, .frame-content, #design, .surveyfunnel-lite-design-container, .design-preview, .surveyfunnel-lite-survey-form {
+	height: 100%;
+}
+
+.dismissalBox {
+	position: absolute;
+	z-index: 999999;
+	
+	top: 20px;
+	right: 20px;
+
+	@media screen and (max-width: 460px) {
+		top: 10px;
+		right: 10px;
+
+		> button {
+			height: 18px;
+			width: 18px;
+		}
+	}
+
+	> button {
+		height: 36px;
+		width: 36px;
+		cursor: pointer;
+		background-color: #FFF;
+        border: 1px solid #d2dae2;
+        color: #60554F;
+		z-index: 9999999;
+	}
 }

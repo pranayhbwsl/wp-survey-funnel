@@ -5,6 +5,9 @@ import Frame, { useFrame } from 'react-frame-component'
 import fetchData from './HelperComponents/fetchData'
 import { initColorState, ItemTypes, popupInitialState } from './Data'
 import './scss/survey.scss'
+
+let currentIframe = null;
+
 function validateEmail(email) {
     const re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -20,7 +23,7 @@ const currentlyPreviewing = false
 
 let initialState = []
 
-let id = 'wpsf-survey-' + data.userLocalID
+let id = 'surveyfunnel-lite-survey-' + data.userLocalID
 let metaTitle = '';
 let metaDescription = '';
 let companyBranding = true;
@@ -32,19 +35,37 @@ var available;
 var percentage_of_page;
 var half_screen;
 var contentHeight;
+let configure = '';
+
+let dismissEvent = new CustomEvent('surveyfunnel-lite-remove-event', { detail: {id}, } );
 
 if ( data.configure !== '' ) {
-    let configure = JSON.parse(data.configure);
+    configure = JSON.parse(data.configure);
     metaTitle = configure.metaInfo.title;
     metaDescription = configure.metaInfo.description;
     companyBranding = configure.companyBranding;
 }
 
 const initialContent =
-    `<!DOCTYPE html><html><head><link rel="stylesheet" href="${data.styleSurveyLink}" /><style>*{margin:0; padding:0;box-sizing:border-box;}</style>
+    `<!DOCTYPE html><html><head><link rel="stylesheet" href="${data.styleSurveyLink}" /><style>*{margin:0; padding:0;box-sizing:border-box;}html{height: 100%}body{height: 100%}</style>
         <meta name="title" content="${metaTitle}" />
         <meta name="description" content="${metaDescription}" />
     </head><body><div class="frame-root"></div></body></html>`;
+
+function ShowErrors({error}) {
+	return (
+		<>
+			{error.length > 0 && (
+				<div className="tab-validation-error">
+					{error.map(function (err) {
+						return err;
+					})}
+				</div>
+			)}
+		</>
+	);
+}
+	
 
 function Survey() {
     if (data.build === '') {
@@ -54,7 +75,7 @@ function Survey() {
     
     const iframeRef = React.createRef()
     const [height, setHeight] = useState(650);
-    const [ showSurvey, setShowSurvey ] = useState( data.type === 'popup' ? false : true );
+    const [ showSurvey, setShowSurvey ] = useState( true );
     
     let designCon = {}
     if (data.design === '') {
@@ -67,73 +88,9 @@ function Survey() {
         shareSettings = JSON.parse( data.share );
     }
 
-    useEffect(() => {
-        if ( data.type === 'popup' ) {
-            const { launchOptions } = shareSettings.popup.behaviourOptions;
-            switch( launchOptions.launchWhen ) {
-                case 'afterPageLoads':
-                    showOrHideSurvey(true);
-                    console.log('hello world');
-                    break;
-                case 'afterTimeDelay':
-                    setTimeout(() => {
-                        showOrHideSurvey(true);
-                    }, launchOptions.afterTimeDelay * 1000)
-                    break;
-                case 'afterScrollPercentage':
-                    showPopupOnScroll(launchOptions.afterScrollPercentage);
-                    break;
-                case 'afterExitIntent':
-                    showPopupOnExitIntent( launchOptions.afterExitIntent );
-                    break;
-            }
-        }
-    }, [shareSettings])
-
-    const showPopupOnScroll = (scrollPercentage) => {
-        window.addEventListener('scroll', () => {
-            available = document.body.scrollHeight;
-            half_screen = available * scrollPercentage;
-            contentHeight = window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
-            let docHeight = window.innerHeight;
-            
-            var scrollPercent = (contentHeight) / (available - docHeight);
-			var scrollPercentRounded = Math.round(scrollPercent*100);
-            if ( scrollPercentRounded > scrollPercentage ) {
-                showOrHideSurvey(true);
-            } else {
-                showOrHideSurvey(false);
-            }
-        })
-    }
-
-    const showPopupOnExitIntent = ( exitIntent ) => {
-        window.addEventListener('mousemove', (e) => {
-            
-            if ( ! showSurvey ) {
-                let exitY = 999999;
-                switch( exitIntent ) {
-                    case 'high':
-                        exitY = 100;
-                        break;
-                    case 'medium':
-                        exitY = 50;
-                        break;
-                    case 'low':
-                        exitY = 25;
-                        break;
-                }
-                if ( exitY > e.clientY ) {
-                    setTimeout(() => {
-                        showOrHideSurvey(true);
-                    }, 500); 
-                }
-            }
-        });
-    }
-
     const handleResize = useCallback(
         (iframe) => {
+			currentIframe = iframe;
             const height =
                 iframe.current?.node.contentDocument?.body?.scrollHeight ?? 0
             if (height !== 0) {
@@ -195,7 +152,7 @@ function Survey() {
             let formData = {
                 security: data.ajaxSecurity,
                 post_id: data.post_id,
-                action: 'wpsf_new_survey_lead',
+                action: 'surveyfunnel_lite_new_survey_lead',
                 userLocalID: data.userLocalID,
                 time: data.time,
                 completed: List.CONTENT_ELEMENTS.length,
@@ -276,7 +233,7 @@ function Survey() {
             let formData = {
                 security: data.ajaxSecurity,
                 post_id: data.post_id,
-                action: 'wpsf_new_survey_lead',
+                action: 'surveyfunnel_lite_new_survey_lead',
                 userLocalID: data.userLocalID,
                 time: data.time,
                 data: JSON.stringify({
@@ -401,7 +358,7 @@ function Survey() {
             case 'SingleChoice':
                 return (
                     <div
-                        className="wpsf-tab-SingleChoice"
+                        className="surveyfunnel-lite-tab-SingleChoice"
                         style={{ ...style }}
                         key={item.id}
                     >
@@ -428,7 +385,7 @@ function Survey() {
                                                         designCon.answerBorderColor
                                                     )}`,
                                                 }}
-                                                className="wpsf-tab-answer-container"
+                                                className="surveyfunnel-lite-tab-answer-container"
                                             >
                                                 <input
                                                     type="radio"
@@ -462,6 +419,10 @@ function Survey() {
                                         )
                                     })}
                                 </div>
+								<ShowErrors error={error} />
+								{checkValidations( 1, true ) && <div className="nextButtonChoices">
+									<button type="button" onClick={() => {changeCurrentTab(1);}}>Next</button>	
+								</div>}
                             </div>
                         </div>
                     </div>
@@ -469,7 +430,7 @@ function Survey() {
             case 'MultiChoice':
                 return (
                     <div
-                        className="wpsf-tab-MultiChoice"
+                        className="surveyfunnel-lite-tab-MultiChoice"
                         style={{ ...style }}
                         key={item.id}
                     >
@@ -499,7 +460,7 @@ function Survey() {
                                                         designCon.answerBorderColor
                                                     )}`,
                                                 }}
-                                                className="wpsf-tab-answer-container"
+                                                className="surveyfunnel-lite-tab-answer-container"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -533,6 +494,10 @@ function Survey() {
                                         )
                                     })}
                                 </div>
+								<ShowErrors error={error} />
+								{checkValidations( 1, true ) && <div className="nextButtonChoices">
+									<button type="button" onClick={() => {changeCurrentTab(1);}}>Next</button>	
+								</div>}
                             </div>
                         </div>
                     </div>
@@ -540,7 +505,7 @@ function Survey() {
             case 'CoverPage':
                 return (
                     <div
-                        className="wpsf-tab-CoverPage"
+                        className="surveyfunnel-lite-tab-CoverPage"
                         style={{ ...style }}
                         key={item.id}
                     >
@@ -553,6 +518,7 @@ function Survey() {
                                 <p className="surveyDescription">
                                     {item.description}
                                 </p>
+								<ShowErrors error={error} />
                                 <button
                                     type="button"
                                     className="surveyButton"
@@ -577,7 +543,7 @@ function Survey() {
             case 'ResultScreen':
                 return (
                     <div
-                        className="wpsf-tab-ResultScreen"
+                        className="surveyfunnel-lite-tab-ResultScreen"
                         style={{ ...style }}
                         key={item.id}
                     >
@@ -597,7 +563,7 @@ function Survey() {
             case 'FormElements':
                 return (
                     <div
-                        className="wpsf-tab-FormElements"
+                        className="surveyfunnel-lite-tab-FormElements"
                         style={{ ...style }}
                         key={item.id}
                     >
@@ -696,6 +662,7 @@ function Survey() {
                                             )
                                     }
                                 })}
+								<ShowErrors error={error} />
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -766,13 +733,26 @@ function Survey() {
     }
 
     const dismissSurvey = () => {
-        if ( data.type === 'popup' ) {
-            if ( shareSettings.popup.behaviourOptions.frequencyOptions.frequency === 'hideFor' ) {
-                setCookie('wpsf-dismiss-survey', data.post_id + ',', shareSettings.popup.behaviourOptions.frequencyOptions.hideFor );
-            }
-        }
+		let wpsfSurveyCookie = getCookie( 'surveyfunnel-lite-dismiss' );
+
+		if ( data.type === 'popup' ) {
+			// frequency is always show?
+			if ( shareSettings.popup.behaviourOptions.frequencyOptions.frequency === 'alwaysShow' ) {
+				window.parent.dispatchEvent(dismissEvent);
+				showOrHideSurvey(false);
+				return;
+			}
+			let cookieName = data.post_id + ',';
+			if ( wpsfSurveyCookie && shareSettings.popup.behaviourOptions.frequencyOptions.frequency === 'hideFor' ) {
+				cookieName = wpsfSurveyCookie + cookieName;
+			}
+			setCookie('surveyfunnel-lite-dismiss', cookieName, shareSettings.popup.behaviourOptions.frequencyOptions.hideFor );
+		}
+        else {
+			setCookie('surveyfunnel-lite-dismiss', data.post_id + ',', 1 );
+		}
+		window.parent.dispatchEvent(dismissEvent);
         showOrHideSurvey(false);
-        window.location.reload();
     }
 
     const restartOrCompleteSurvey = ( status ) => {
@@ -781,25 +761,26 @@ function Survey() {
                 setCurrentTab(0);
                 return;
             case 'Complete':
-                let wpsfSurveyCookie = getCookie( 'wpsf-survey-completed' );
+                let wpsfSurveyCookie = getCookie( 'surveyfunnel-lite-completed' );
                 if ( wpsfSurveyCookie ) {
                     let pattern = new RegExp(data.post_id , "g");
                     if ( pattern.test( wpsfSurveyCookie ) ) {
                         return;
                     }
                     if ( data.type === 'popup' ) {
-                        setCookie('wpsf-survey-completed', wpsfSurveyCookie + ',' + data.post_id , 28625 );
+                        setCookie('surveyfunnel-lite-completed', wpsfSurveyCookie + ',' + data.post_id , 28625 );
                     }
                     else
-                        setCookie('wpsf-survey-completed', wpsfSurveyCookie + ',' + data.post_id , 1);
+                        setCookie('surveyfunnel-lite-completed', wpsfSurveyCookie + ',' + data.post_id , 1);
                 }
                 else {
                     if ( data.type === 'popup' ) {
-                        setCookie('wpsf-survey-completed', data.post_id , 28625 );
+                        setCookie('surveyfunnel-lite-completed', data.post_id , 28625 );
                     }
                     else
-                        setCookie('wpsf-survey-completed', data.post_id , 1);
+                        setCookie('surveyfunnel-lite-completed', data.post_id , 1);
                 }
+				window.parent.dispatchEvent(dismissEvent);
                 showOrHideSurvey(false);
                 return;
             default:
@@ -810,9 +791,10 @@ function Survey() {
     const showOrHideSurvey = ( status ) => {
         if ( ! status ) {
             setShowSurvey(false);
+			return;
         }
-        let wpsfSurveyDismissed = getCookie('wpsf-survey-dismissed');
-        let wpsfSurveyCompleted = getCookie('wpsf-survey-completed');
+        let wpsfSurveyDismissed = getCookie('surveyfunnel-lite-dismissed');
+        let wpsfSurveyCompleted = getCookie('surveyfunnel-lite-completed');
         let postIdRegEx = new RegExp( data.post_id, 'i' );
         if ( postIdRegEx.test( wpsfSurveyDismissed ) || postIdRegEx.test(wpsfSurveyCompleted) ) {
             return;
@@ -828,20 +810,19 @@ function Survey() {
             height="100%"
             id={id + '_iframe'}
             style={{
-                margin: '0px',
-                border: '0px',
+                border: '0',
+				margin: 'auto',
                 height: data.type === 'responsive' ? height : '',
-                background: 'rgba(39,43,47,.9)'
             }}
-            className={'wpsf-sc-'+data.type}
+            className={'surveyfunnel-lite-sc-'+data.type}
             onLoad={() => handleResize(iframeRef)}
             scrolling="no"
         >
             <div id="design">
-                <div className="wpsf-design-container">
-                    <div className="design-preview wpsf-design-preview-container" style={{fontFamily: designCon.fontFamily, ...backgroundStyle}}>
+                <div className="surveyfunnel-lite-design-container">
+                    <div className="design-preview" style={{fontFamily: designCon.fontFamily, ...backgroundStyle}}>
                         {addFontFamilyLink()}
-                        <div className="wpsf-survey-form" style={{height: data.type !== 'responsive' ? '100vh' : ''}}>
+                        <div className="surveyfunnel-lite-survey-form">
                             {tabCount === 0 ? (
                                 <div className="no-preview-available">
                                     <img src={require(`./Components/Build/BuildImages/unavailable.png`)}></img>
@@ -850,13 +831,12 @@ function Survey() {
                                         : "No Questions were added in this survey"}
                                 </div>
                             ) : (
-                                <div className="wpsf-design-preview-container" style={{  }}>
-                                    <div className="preview" style={{color: convertToRgbaCSS( designCon.fontColor ), padding: '40px' }}>
-                                        {(data.type === 'fullpage' || data.type === 'popup') && <div className="dismissalContainer">
-                                            <button onClick={dismissSurvey}>Dismiss</button>
-                                        </div>}
-                                        <div className="main-tab-container">
-
+                                <div className="surveyfunnel-lite-design-preview-container" style={{  }}>
+									{(data.type === 'fullpage' || data.type === 'popup') && <div className="dismissalBox">
+										<button onClick={dismissSurvey}>X</button>
+									</div>}
+                                    <div className="preview" style={{color: convertToRgbaCSS( designCon.fontColor ) }}>
+										<div className="preview-container">
                                         <div className="tab-list" style={{background: convertToRgbaCSS( designCon.backgroundContainerColor )}}>
                                             {componentList.map(function (item, i) {
                                                 if (currentTab === i) {
@@ -873,28 +853,19 @@ function Survey() {
                                                 }
                                                 return renderContentElements(item, 'none', i);
                                             })}
-                                        </div>
-                                        {error.length > 0 && <div className="tab-validation-error">
-                                            {error.map(function(err) {
-                                                return err;
-                                            })}	
-                                        </div>}
-                                    
-                                        
-                                        </div>
-
+                                        </div>    
+										</div>
                                     </div>
                                     <div className="tab-controls">
                                             <span className="tab-controls-inner">
-                                            {companyBranding && <div><a href="google.com"><span style={{fontSize: '10px'}}>Powered By</span><img src={require('../images/wpsf-main-logo.png')} alt="wpsf-main-logo" /></a></div> }
+                                            {companyBranding && <div><a target="_blank" href="https://www.surveyfunnel.com"><span style={{fontSize: '10px'}}>Powered By</span><img src={require('../images/surveyfunnel-lite-main-logo.png')} alt="surveyfunnel-lite-main-logo" /></a></div> }
                                             
-                                            <div className="control-buttons"><button
+                                            <button
                                                 type="button"
                                                 onClick={() => {
                                                     changeCurrentTab(-1);
                                                 }}
                                                 disabled={checkButtonDisability('Previous')}
-                                                style={{marginRight: '7px'}}
                                             >
                                                 &lt;
                                             </button>
@@ -907,13 +878,13 @@ function Survey() {
                                                 disabled={checkButtonDisability('Next')}
                                             >
                                                 &gt;
-                                            </button></div>
-                                            <div><button onClick={() => {
+                                            </button>
+                                            { componentList[currentTab].type === 'RESULT_ELEMENTS'  && <div><button onClick={() => {
                                                 let survey = currentTab === tabCount - 1 ? "Complete" : "Restart";
                                                 restartOrCompleteSurvey(survey);
                                             }}>
                                                 {currentTab === tabCount - 1 ? "Complete Survey" : "Restart"}    
-                                            </button></div>
+                                            </button></div>}
                                             </span>
                                         </div>
                                 </div>

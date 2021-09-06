@@ -15,10 +15,18 @@ export default function Responses() {
 		let { fields } = currentReportSelected;
 		fields = JSON.parse(fields);
 		const arrayOfObj = Object.values(fields);
-		return (<div className="wpsf-preview-container">
+		console.log(arrayOfObj);
+		if ( arrayOfObj.length === 1 ) {
+			if ( arrayOfObj[0].status === 'viewed' ) {
+				return (<div className="surveyfunnel-lite-preview-container" style={{textAlign: 'center'}}>
+					<span className="surveyfunnel-lite-no-response">The user did not submit any responses.</span>
+				</div>)
+			}
+		}
+		return (<div className="surveyfunnel-lite-preview-container">
 			{arrayOfObj.map(function(item, i) {
 				if ( item.status === 'answered' ) {
-					return (<div key={item._id} className="wpsf-report-question-container">
+					return (<div key={item._id} className="surveyfunnel-lite-report-question-container">
 						<div className="currentReportQuestion">
 							<h2>{item.tabNumber}. {item.question}</h2>
 						</div>
@@ -157,7 +165,7 @@ export default function Responses() {
 
 	if ( reports.length <= 0 ) {
 		return (
-			<NoResponseRecorded title={'No Response Recorded'} description={'No responses/insights found for provided start date and end date!'} />
+			<NoResponseRecorded title={'No Responses Received'} description={'No responses/insights received for provided start date and end date!'} />
 		)
 	}
 	return (
@@ -182,7 +190,7 @@ export default function Responses() {
 							</div>
 						})}
 					</div>
-					<div className="wpsf-export-csv-btn">
+					<div className="surveyfunnel-lite-export-csv-btn">
 						<button onClick={exportCSV}>Export CSV</button>
 					</div>
 				</div>

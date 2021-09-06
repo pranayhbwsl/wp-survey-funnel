@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelperComponents Tabs test 1`] = `
+<div
+  className="surveyfunnel-lite-header-tabs"
+>
+  <ol
+    className="surveyfunnel-lite-header-tab-list"
+  >
+    <li
+      className="tab-list-item tab-list-active"
+      onClick={[Function]}
+    >
+      none
+    </li>
+  </ol>
+  <div
+    className="surveyfunnel-lite-header-tab-content"
+  />
+</div>
+`;
